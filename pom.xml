@@ -93,6 +93,10 @@
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>appengine-maven-plugin</artifactId>
         <version>${appengine-maven-plugin-version}</version>
+        <configuration>
+            <devserver.host>0.0.0.0</devserver.host>
+            <devserver.port>8080</devserver.port>
+        </configuration>
       </plugin>
     </plugins>
   </build>
