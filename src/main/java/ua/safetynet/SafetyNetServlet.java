@@ -1,8 +1,9 @@
 package ua.safetynet;
 import static spark.Spark.get;
-
+import static spark.Spark.post;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.io.FileInputStream;
 import java.util.Properties;
 
@@ -11,6 +12,9 @@ import javax.servlet.annotation.WebInitParam;
 
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.ClientTokenRequest;
+import com.braintreegateway.Result;
+import com.braintreegateway.Transaction;
+import com.braintreegateway.TransactionRequest;
 
 import spark.servlet.SparkApplication;
 
@@ -48,7 +52,7 @@ public class SafetyNetServlet implements SparkApplication {
         		);
         
         get("/hello", (req, res) -> {
-        return "Hello" + " " + req.queryParams("name");
+        	return "Hello" + " " + req.queryParams("name");
         });
         
         get("/client_token", (req, res) -> {
@@ -57,6 +61,19 @@ public class SafetyNetServlet implements SparkApplication {
         	ClientTokenRequest clientTokenRequest = new ClientTokenRequest().customerId(customerId);
         	clientToken = gateway.clientToken().generate(clientTokenRequest);
         	return clientToken;
+        });
+        
+        post("/checkout", (req,res) -> {
+        	String nonce = req.queryParams("payment_method_nonce");
+        	BigDecimal amount = new BigDecimal(req.queryParams("amount"));
+        	TransactionRequest request = new TransactionRequest()
+        			.amount(amount)
+        			.paymentMethodNonce(nonce)
+        			.options()
+        			.submitForSettlement(true)
+        			.done();
+        	Result<Transaction> result = gateway.transaction().sale(request);
+        	return result;
         });
         
     }
