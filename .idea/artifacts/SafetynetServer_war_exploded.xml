@@ -8,9 +8,11 @@
           <element id="module-output" name="SafetynetServer" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="AppEngine API" />
           <element id="library" level="project" name="javax.servlet:jstl:1.2" />
-          <element id="library" level="project" name="javax.servlet:servlet-api:2.5" />
+          <element id="library" level="project" name="javax.servlet:servlet-api:3.0-alpha-1" />
+          <element id="library" level="project" name="com.googlecode.objectify:objectify:5.1.22" />
+          <element id="library" level="project" name="com.google.appengine:appengine-api-1.0-sdk:Release" />
+          <element id="library" level="project" name="com.google.endpoints:endpoints-framework:Release" />
         </element>
       </element>
     </root>

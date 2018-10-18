@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 
 import com.braintreegateway.BraintreeGateway;
