@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="SafetynetServer:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/SafetynetServer_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="SafetynetServer/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="SafetynetServer" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="AppEngine API" />
+          <element id="library" level="project" name="javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="javax.servlet:servlet-api:2.5" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
