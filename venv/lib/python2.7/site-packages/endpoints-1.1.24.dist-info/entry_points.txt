@@ -1,0 +1,3 @@
+[console_scripts]
+endpoints = endpoints.bin.wsgiserver:console
+
