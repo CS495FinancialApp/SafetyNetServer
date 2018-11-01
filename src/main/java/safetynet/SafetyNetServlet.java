@@ -56,13 +56,12 @@ public class SafetyNetServlet implements SparkApplication {
         		);
         get("/client_token/:userId", (req, res) -> {
         	String customerId = req.queryParams(":userId");
-        	String clientToken = null;
-        	ClientTokenRequest clientTokenRequest = new ClientTokenRequest().customerId(customerId);
-        	clientToken = gateway.clientToken().generate(clientTokenRequest);
-        	System.out.println(clientToken);
-        	return clientToken;
+        	return generateClientToken(customerId);
         });
-        
+        get("/client_token", (req, res) -> {
+            String customerId = req.queryParams("userId");
+            return generateClientToken(customerId);
+        });
         get("/hello", (req, res) -> {
         	return "Hello" + " " + req.queryParams("name");
         });
@@ -83,6 +82,14 @@ public class SafetyNetServlet implements SparkApplication {
         get("/hello/:name", (req, res) -> {
         	return "Hello" + " " + req.params(":name");
         });
+    }
+
+    private String generateClientToken(String userId) {
+        String clientToken = null;
+        ClientTokenRequest clientTokenRequest = new ClientTokenRequest().customerId(userId);
+        clientToken = gateway.clientToken().generate(clientTokenRequest);
+        System.out.println(clientToken);
+        return clientToken;
     }
    @WebFilter(
             filterName = "SparkInitFilter", urlPatterns = {"/*"}, 
