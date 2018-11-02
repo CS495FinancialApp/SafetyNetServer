@@ -1,7 +1,4 @@
 package safetynet;
-import static spark.Spark.get;
-import static spark.Spark.post;
-import static spark.Spark.head;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -17,9 +14,11 @@ import com.braintreegateway.Result;
 import com.braintreegateway.Transaction;
 import com.braintreegateway.TransactionRequest;
 
+import com.braintreegateway.exceptions.BraintreeException;
 import spark.Spark;
 import spark.servlet.SparkApplication;
 
+import static spark.Spark.*;
 
 
 public class SafetyNetServlet implements SparkApplication {
@@ -34,26 +33,52 @@ public class SafetyNetServlet implements SparkApplication {
     @Override
     public void init()
     {
-    	InputStream inputStream = null;
-        Properties properties = new Properties();
-        
-        //Get keys from file so can be excluded from Git
-        try {
-            inputStream = new FileInputStream("config.properties");
-            properties.load(inputStream);
-        } catch (Exception e) {
-            System.err.println("Exception: " + e);
-        } finally {
-            try { inputStream.close(); }
-            catch (IOException e) { System.err.println("Exception: " + e); }
-        }
+        //Set port, if there exists an env var use that, otherwise default to 4567
+        String port = System.getenv("PORT");
+        if(port != null && !port.isEmpty())
+            port(new Integer(port));
+        else
+            port(4567);
+        //Need keys to instantiate braintree gateway. Check enviroment vars then for config.properties file.
+        String btEnviroment = null;
+        String btMerchantId = null;
+        String btPubKey = null ;
+        String btPrivKey = null;
 
-        gateway = new BraintreeGateway(
-            properties.getProperty("BT_ENVIRONMENT"),
-            properties.getProperty("BT_MERCHANT_ID"),
-            properties.getProperty("BT_PUBLIC_KEY"),
-            properties.getProperty("BT_PRIVATE_KEY")
-        		);
+        if(System.getenv("BT_ENVIRONMENT") != null && System.getenv("BT_MERCHANT_ID") != null && System.getenv("BT_PUBLIC_KEY") != null && System.getenv("BT_PRIVATE_KEY") != null) {
+            btEnviroment = System.getenv("BT_ENVIRONMENT");
+            btMerchantId = System.getenv("BT_MERCHANT_ID");
+            btPubKey = System.getenv("BT_PUBLIC_KEY");
+            btPrivKey = System.getenv("BT_PRIVATE_KEY");
+        }
+        else {
+            InputStream inputStream = null;
+            Properties properties = new Properties();
+
+            //Get keys from file so can be excluded from Git
+            try {
+                inputStream = new FileInputStream("config.properties");
+                properties.load(inputStream);
+                btEnviroment = properties.getProperty("BT_ENVIRONMENT");
+                btMerchantId = properties.getProperty("BT_MERCHANT_ID");
+                btPubKey = properties.getProperty("BT_PUBLIC_KEY");
+                btPrivKey = properties.getProperty("BT_PRIVATE_KEY");
+            } catch (Exception e) {
+                System.err.println("Exception: " + e);
+            } finally {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    System.err.println("Exception: " + e);
+                }
+            }
+        }
+        try {
+            gateway = new BraintreeGateway(btEnviroment, btMerchantId, btPubKey, btPrivKey);
+        }
+        catch(BraintreeException e) {
+            System.err.print("Could not initialize Braintree Gateway" + e.toString());
+        }
         get("/client_token/:userId", (req, res) -> {
         	String customerId = req.queryParams(":userId");
         	return generateClientToken(customerId);

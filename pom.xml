@@ -127,6 +127,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                 <version>3.5.1</version>
                 <extensions>true</extensions>
             </plugin>
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>2.0.6</version>
+                <configuration>
+                    <appName>safetynet-495</appName>
+                    <processTypes>
+                        <web>java $JAVA_OPTS -jar target/payments-jar-with-dependencies.jar -Djetty.http.port=$PORT</web>
+                    </processTypes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
