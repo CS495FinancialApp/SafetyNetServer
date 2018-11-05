@@ -215,8 +215,7 @@ public class SafetyNetServlet implements SparkApplication {
        data.put("amount",trans.getAmount().toString());
        data.put("timestamp", trans.getCreatedAt().toString());
        data.put("groupId", trans.getCustomFields().get("groupid"));
-       data.put("firstName",trans.getCustomer().getFirstName());
-       data.put("lastName",trans.getCustomer().getLastName());
+       data.put("name",trans.getCustomer().getFirstName() + trans.getCustomer().getLastName());
        return data;
     }
    @WebFilter(
