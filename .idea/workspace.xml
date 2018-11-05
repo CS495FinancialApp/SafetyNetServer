@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="507d2553-c71b-479e-9097-db783fe6ee3f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/safetynet/SafetyNetServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/safetynet/SafetyNetServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/safetynet/SafetyNetServlet$SparkInitFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/safetynet/SafetyNetServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/safetynet/SafetyNetServlet$SparkInitFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/safetynet/SafetyNetServlet$SparkInitFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/safetynet/SafetyNetServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/safetynet/SafetyNetServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/payments-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/payments-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/payments.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/payments.jar" afterDir="false" />
@@ -23,11 +21,14 @@
     <session id="-1159840359">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.5" value="2" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.7" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -52,7 +53,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="2908" />
+          <entry key="java" value="3393" />
           <entry key="properties" value="5" />
           <entry key="txt" value="11" />
           <entry key="xml" value="87" />
@@ -60,7 +61,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="2908" />
+          <entry key="JAVA" value="3393" />
           <entry key="PLAIN_TEXT" value="11" />
           <entry key="Properties" value="5" />
           <entry key="XML" value="87" />
@@ -73,8 +74,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/safetynet/SafetyNetServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="763">
-              <caret line="170" column="55" lean-forward="true" selection-start-line="170" selection-start-column="55" selection-end-line="170" selection-end-column="55" />
+            <state relative-caret-position="943">
+              <caret line="179" column="25" selection-start-line="179" selection-start-column="25" selection-end-line="179" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -148,6 +149,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -193,7 +195,6 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -205,7 +206,7 @@
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="com.google.cloud.tools.intellij.appengine.java.sdk.CloudSdkConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -263,18 +264,21 @@
       <workItem from="1541085538015" duration="1897000" />
       <workItem from="1541111480222" duration="5470000" />
       <workItem from="1541172281286" duration="12641000" />
-      <workItem from="1541258904214" duration="3343000" />
+      <workItem from="1541258904214" duration="4024000" />
+      <workItem from="1541266419366" duration="118000" />
+      <workItem from="1541363698431" duration="2808000" />
+      <workItem from="1541440127876" duration="773000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24413000" />
+    <option name="totallyTimeSpent" value="28793000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="6" y="0" width="2335" height="1418" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25780907" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26572812" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -345,8 +349,8 @@
     <entry file="file://$PROJECT_DIR$/paymentapi.iml" />
     <entry file="file://$PROJECT_DIR$/src/main/java/safetynet/SafetyNetServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="763">
-          <caret line="170" column="55" lean-forward="true" selection-start-line="170" selection-start-column="55" selection-end-line="170" selection-end-column="55" />
+        <state relative-caret-position="943">
+          <caret line="179" column="25" selection-start-line="179" selection-start-column="25" selection-end-line="179" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

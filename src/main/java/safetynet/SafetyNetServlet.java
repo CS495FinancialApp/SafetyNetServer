@@ -10,13 +10,10 @@ import java.util.Properties;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 
-import com.braintreegateway.BraintreeGateway;
-import com.braintreegateway.ClientTokenRequest;
-import com.braintreegateway.Result;
-import com.braintreegateway.Transaction;
-import com.braintreegateway.TransactionRequest;
+import com.braintreegateway.*;
 
 import com.braintreegateway.exceptions.BraintreeException;
+import com.braintreegateway.exceptions.NotFoundException;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentReference;
@@ -145,22 +142,59 @@ public class SafetyNetServlet implements SparkApplication {
         	String nonce = req.queryParams("payment_method_nonce");
         	String userId = req.queryParams("userId");
         	String groupId = req.queryParams("groupId");
+        	String firstName = req.queryParams("firstName");
+        	String lastName = req.queryParams("lastName");
+        	String email = req.queryParams("email");
         	BigDecimal amount = new BigDecimal(req.queryParams("amount"));
-        	TransactionRequest request = new TransactionRequest()
-        			.amount(amount)
-        			.paymentMethodNonce(nonce)
-                    .customField("groupid",groupId)
-                    .customer()
-                     .id(userId)
-                     .done()
-        			.options()
-                     .storeInVaultOnSuccess(true)
-        			 .submitForSettlement(true)
-        			 .done();
+        	boolean customerExists = true;
+        	try{
+        	    Customer customer = gateway.customer().find(userId);
+            }
+            catch(NotFoundException e) {
+                System.out.println("Existing Customer not found, will create new one");
+                customerExists = false;
+            }
+            TransactionRequest request;
+            if(customerExists) {
+                request = new TransactionRequest()
+                        .amount(amount)
+                        .paymentMethodNonce(nonce)
+                        .customField("groupid", groupId)
+                        .customerId(userId)
+                        .options()
+                        .storeInVaultOnSuccess(true)
+                        .submitForSettlement(true)
+                        .done();
+            }
+            else {
+                request = new TransactionRequest()
+                        .amount(amount)
+                        .paymentMethodNonce(nonce)
+                        .customField("groupid", groupId)
+                        .customer()
+                         .id(userId)
+                         .firstName(firstName)
+                         .lastName(lastName)
+                         .email(email)
+                         .done()
+                        .options()
+                         .storeInVaultOnSuccess(true)
+                         .submitForSettlement(true)
+                         .done();
+            }
         	Result<Transaction> result = gateway.transaction().sale(request);
-            String transId = result.getTarget().getId();
-            db.collection("transactions").document(transId).set(transactionToMap(result.getTarget()));
-        	return transId;
+        	if(result.isSuccess()) {
+                String transId = result.getTarget().getId();
+                db.collection("transactions").document(transId).set(transactionToMap(result.getTarget()));
+                return transId;
+            }
+            else {
+                for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
+                    System.out.println(error.getCode());
+                    System.out.println(error.getMessage());
+                }
+            }
+        	return "error" + result.getErrors().toString();
         });
         
         get("/hello/:name", (req, res) -> {
