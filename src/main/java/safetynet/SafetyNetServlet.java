@@ -6,6 +6,8 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
@@ -17,8 +19,8 @@ import com.braintreegateway.exceptions.NotFoundException;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
@@ -183,7 +185,9 @@ public class SafetyNetServlet implements SparkApplication {
         	Result<Transaction> result = gateway.transaction().sale(request);
         	if(result.isSuccess()) {
                 String transId = result.getTarget().getId();
+                System.out.println("Transaction GroupID = " +  groupId + " " + "UserID=" +userId);
                 db.collection("transactions").document(transId).set(transactionToMap(result.getTarget()));
+                updateGroup(groupId, result.getTarget());
                 return transId;
             }
             else {
@@ -215,6 +219,18 @@ public class SafetyNetServlet implements SparkApplication {
        data.put("groupId", trans.getCustomFields().get("groupid"));
        data.put("name",trans.getCustomer().getFirstName());
        return data;
+    }
+    private void updateGroup(String groupId, Transaction trans) throws Exception {
+       if(groupId == null || groupId.isEmpty())
+           return;
+       ApiFuture<DocumentSnapshot> future = db.collection("Groups").document(groupId).get();
+       DocumentSnapshot groupDoc = future.get();
+       String amount = (String)groupDoc.get("funds");
+       if(amount == null)
+           return;
+       BigDecimal amountBig = new BigDecimal(amount);
+       BigDecimal result = amountBig.add(trans.getAmount());
+       db.collection("Groups").document(groupId).update("funds",result.toPlainString());
     }
    @WebFilter(
             filterName = "SparkInitFilter", urlPatterns = {"/*"}, 
