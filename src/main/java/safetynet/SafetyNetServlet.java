@@ -213,11 +213,11 @@ public class SafetyNetServlet implements SparkApplication {
     }
     private Map<String, Object> transactionToMap(Transaction trans) {
        Map<String, Object> data = new HashMap<>();
-       data.put("userid", trans.getCustomer().getId());
+       data.put("userId", trans.getCustomer().getId());
+       data.put("transId", trans.getId());
        data.put("amount",trans.getAmount().toString());
-       data.put("timestamp", trans.getCreatedAt().toString());
+       data.put("timestamp", trans.getCreatedAt().getTime());
        data.put("groupId", trans.getCustomFields().get("groupid"));
-       data.put("name",trans.getCustomer().getFirstName());
        return data;
     }
     private void updateGroup(String groupId, Transaction trans) throws Exception {
