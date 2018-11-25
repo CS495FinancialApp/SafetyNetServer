@@ -142,8 +142,7 @@ public class SafetyNetServlet implements SparkApplication {
         	String nonce = req.queryParams("payment_method_nonce");
         	String userId = req.queryParams("userId");
         	String groupId = req.queryParams("groupId");
-        	String firstName = req.queryParams("firstName");
-        	String lastName = req.queryParams("lastName");
+        	String name = req.queryParams("name");
         	String email = req.queryParams("email");
         	BigDecimal amount = new BigDecimal(req.queryParams("amount"));
         	boolean customerExists = true;
@@ -173,8 +172,7 @@ public class SafetyNetServlet implements SparkApplication {
                         .customField("groupid", groupId)
                         .customer()
                          .id(userId)
-                         .firstName(firstName)
-                         .lastName(lastName)
+                         .firstName(name)
                          .email(email)
                          .done()
                         .options()
@@ -215,7 +213,7 @@ public class SafetyNetServlet implements SparkApplication {
        data.put("amount",trans.getAmount().toString());
        data.put("timestamp", trans.getCreatedAt().toString());
        data.put("groupId", trans.getCustomFields().get("groupid"));
-       data.put("name",trans.getCustomer().getFirstName() + trans.getCustomer().getLastName());
+       data.put("name",trans.getCustomer().getFirstName());
        return data;
     }
    @WebFilter(
