@@ -2,6 +2,7 @@ package safetynet;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -216,9 +217,10 @@ public class SafetyNetServlet implements SparkApplication {
        data.put("userId", trans.getCustomer().getId());
        data.put("transId", trans.getId());
        data.put("amount",trans.getAmount().toString());
-       data.put("timestamp", trans.getCreatedAt());
        data.put("groupId", trans.getCustomFields().get("groupid"));
-       data.put("repaymentdate", trans.getCustomFields().get("repaymentdate"));
+       data.put("timestamp", new Timestamp(trans.getCreatedAt().getTimeInMillis()));
+       if(trans.getCustomFields().get("repaymentdate") != null)
+            data.put("repaymentdate", Timestamp.valueOf(trans.getCustomFields().get("repaymentdate")));
        return data;
     }
     private void updateGroup(String groupId, Transaction trans) throws Exception {
