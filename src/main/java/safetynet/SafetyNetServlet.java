@@ -219,8 +219,6 @@ public class SafetyNetServlet implements SparkApplication {
        data.put("amount",trans.getAmount().toString());
        data.put("groupId", trans.getCustomFields().get("groupid"));
        data.put("timestamp", new Timestamp(trans.getCreatedAt().getTimeInMillis()));
-       if(trans.getCustomFields().get("repaymentdate") != null)
-            data.put("repaymentdate", Timestamp.valueOf(trans.getCustomFields().get("repaymentdate")));
        return data;
     }
     private void updateGroup(String groupId, Transaction trans) throws Exception {
